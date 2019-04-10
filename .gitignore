@@ -1,0 +1,7 @@
+/.vs
+/Is4Client/bin
+/Is4Client/obj
+/Is4Server/obj
+/Is4Server/bin
+/Is4Server/tempkey.rsa
+/Is4Server/wwwroot/lib
