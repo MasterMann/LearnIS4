@@ -24,41 +24,56 @@ namespace Is4Server
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // some details omitted
-            services.AddIdentityServer()
-                .AddInMemoryApiResources(Is4Setup.LoadApiResources())
-                .AddInMemoryIdentityResources(Is4Setup.LoadIdentityResources())
-                .AddInMemoryClients(Is4Setup.LoadClients())
-                .AddDeveloperSigningCredential();
+            // Run inversion of control.
+            IocSetup.Run(services, Configuration);
 
-            services.AddAuthentication()
-                .AddGoogle("Google", options =>
-                {
-                    options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+            // Run authentication setup.
+            AuthenticationSetup.Run(services, Configuration);
+            
+            // Add CORS support.
+            CorsSetup.Run(services, Configuration);
 
-                    options.ClientId = "323676358406-ikvol20relacv3mn5popdi79e5m759pc.apps.googleusercontent.com";
-                    options.ClientSecret = "68pGK3guMhv_bdJKQOznblSi";
-                })
-                .AddOpenIdConnect("demoidsrv", "IdentityServer", options =>
-                {
-                    options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
-                    options.SignOutScheme = IdentityServerConstants.SignoutScheme;
+            // Add http context accessor.
+            services.AddHttpContextAccessor();
 
-                    options.Authority = "http://localhost:57547";
-                    options.ClientId = "implicit";
-                    options.ResponseType = "id_token";
-                    options.SaveTokens = true;
-                    options.CallbackPath = new PathString("/signin-idsrv");
-                    options.SignedOutCallbackPath = new PathString("/signout-callback-idsrv");
-                    options.RemoteSignOutPath = new PathString("/signout-idsrv");
-                    options.RequireHttpsMetadata = false;
-                    
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        NameClaimType = "name",
-                        RoleClaimType = "role"
-                    };
-                });
+            // Add app db context.
+            AppDbContextSetup.Run(services, Configuration);
+
+            //// some details omitted
+            //services.AddIdentityServer()
+            //    .AddInMemoryApiResources(Is4Setup.LoadApiResources())
+            //    .AddInMemoryIdentityResources(Is4Setup.LoadIdentityResources())
+            //    .AddInMemoryClients(Is4Setup.LoadClients())
+            //    .AddDeveloperSigningCredential();
+
+            //services.AddAuthentication()
+            //    .AddGoogle("Google", options =>
+            //    {
+            //        options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+
+            //        options.ClientId = "323676358406-ikvol20relacv3mn5popdi79e5m759pc.apps.googleusercontent.com";
+            //        options.ClientSecret = "68pGK3guMhv_bdJKQOznblSi";
+            //    })
+            //    .AddOpenIdConnect("demoidsrv", "IdentityServer", options =>
+            //    {
+            //        options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+            //        options.SignOutScheme = IdentityServerConstants.SignoutScheme;
+
+            //        options.Authority = "http://localhost:57547";
+            //        options.ClientId = "implicit";
+            //        options.ResponseType = "id_token";
+            //        options.SaveTokens = true;
+            //        options.CallbackPath = new PathString("/signin-idsrv");
+            //        options.SignedOutCallbackPath = new PathString("/signout-callback-idsrv");
+            //        options.RemoteSignOutPath = new PathString("/signout-idsrv");
+            //        options.RequireHttpsMetadata = false;
+
+            //        options.TokenValidationParameters = new TokenValidationParameters
+            //        {
+            //            NameClaimType = "name",
+            //            RoleClaimType = "role"
+            //        };
+            //    });
 
             services
                 .AddMvc()
@@ -78,6 +93,8 @@ namespace Is4Server
             app.UseHttpsRedirection();
 
             app.UseIdentityServer();
+
+            //AuthenticationSetup.Seed(app);
 
             app
                 .UseMvc(options =>

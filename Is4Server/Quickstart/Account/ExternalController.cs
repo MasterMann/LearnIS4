@@ -60,21 +60,20 @@ namespace Is4Server.Quickstart.Account
                 // windows authentication needs special handling
                 return await ProcessWindowsLoginAsync(returnUrl);
             }
-            else
+
+            // start challenge and roundtrip the return URL and scheme 
+            var props = new AuthenticationProperties
             {
-                // start challenge and roundtrip the return URL and scheme 
-                var props = new AuthenticationProperties
-                {
-                    RedirectUri = Url.Action(nameof(Callback)),
-                    Items =
+                RedirectUri = Url.Action(nameof(Callback)),
+                Items =
                     {
                         { "returnUrl", returnUrl },
                         { "scheme", provider },
                     }
-                };
+            };
 
-                return Challenge(props, provider);
-            }
+            return Challenge(props, provider);
+
         }
 
         /// <summary>
