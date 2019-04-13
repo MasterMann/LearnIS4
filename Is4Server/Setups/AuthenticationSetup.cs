@@ -71,8 +71,8 @@ namespace Is4Server.Setups
                     options.ClientId = "323676358406-ikvol20relacv3mn5popdi79e5m759pc.apps.googleusercontent.com";
                     options.ClientSecret = "68pGK3guMhv_bdJKQOznblSi";
 
-                    //options.AccessType = "offline";
-                    options.Scope.Add("profile");
+                    options.SaveTokens = true;
+                    options.AccessType = "offline";
                 });
             //.AddOpenIdConnect("demoidsrv", "IdentityServer", options =>
             //{
@@ -197,8 +197,9 @@ namespace Is4Server.Setups
             var authorizationCodeClient = new Client();
             authorizationCodeClient.ClientId = "mvc";
             authorizationCodeClient.ClientName = "MVC Client";
-            authorizationCodeClient.AllowedGrantTypes = new List<string>();
-            authorizationCodeClient.AllowedGrantTypes.Add(GrantType.AuthorizationCode);
+            //authorizationCodeClient.AllowedGrantTypes = new List<string>();
+            //authorizationCodeClient.AllowedGrantTypes.Add(GrantType.AuthorizationCode);
+            authorizationCodeClient.AllowedGrantTypes = GrantTypes.Hybrid;
             authorizationCodeClient.ClientSecrets = new List<Secret>();
             authorizationCodeClient.ClientSecrets.Add(new Secret("secret".Sha256()));
             authorizationCodeClient.ClientSecrets.Add(new Secret("68pGK3guMhv_bdJKQOznblSi".Sha256()));
@@ -206,6 +207,8 @@ namespace Is4Server.Setups
             authorizationCodeClient.RedirectUris.Add("http://localhost:4300");
             authorizationCodeClient.RedirectUris.Add("http://localhost:57547/signin-idsrv");
             authorizationCodeClient.RedirectUris.Add("http://localhost:57547/signin-google");
+            authorizationCodeClient.RedirectUris.Add("http://127.0.0.1/sample-wpf-app");
+            authorizationCodeClient.RedirectUris.Add("https://oidcdebugger.com/debug");
             authorizationCodeClient.PostLogoutRedirectUris = new List<string>();
             authorizationCodeClient.PostLogoutRedirectUris.Add("http://localhost:5002/signout-callback-oidc");
             authorizationCodeClient.RequirePkce = false;
@@ -215,8 +218,10 @@ namespace Is4Server.Setups
             authorizationCodeClient.AllowedScopes.Add("api1");
             authorizationCodeClient.AllowOfflineAccess = true;
             authorizationCodeClient.RequireConsent = false;
+            authorizationCodeClient.AllowAccessTokensViaBrowser = true;
+            authorizationCodeClient.AccessTokenType = AccessTokenType.Reference;
             clients.Add(authorizationCodeClient);
-            
+
 
             var codeClient = new Client();
             codeClient.ClientId = "js";

@@ -97,12 +97,7 @@ namespace Is4Server
             //AuthenticationSetup.Seed(app);
 
             app
-                .UseMvc(options =>
-                {
-                    options.MapRoute(
-                        "default",
-                        "{controller=Main}/{action=Index}/{id?}");
-                });
+                .UseMvcWithDefaultRoute();
         }
     }
 }
