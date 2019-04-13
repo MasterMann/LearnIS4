@@ -48,8 +48,8 @@ namespace Is4Server.Quickstart.Account
             IIdentityServerInteractionService interaction,
             IClientStore clientStore,
             IAuthenticationSchemeProvider schemeProvider,
-            IEventService events, 
-            LearnIs4DbContext dbContext, 
+            IEventService events,
+            LearnIs4DbContext dbContext,
             IBaseEncryptionService baseEncryptionService)
         {
             // if the TestUserStore is not in DI, then we'll just use the global users collection
@@ -113,11 +113,9 @@ namespace Is4Server.Quickstart.Account
 
                     return Redirect(model.ReturnUrl);
                 }
-                else
-                {
-                    // since we don't have a valid context, then we just go back to the home page
-                    return Redirect("~/");
-                }
+
+                // since we don't have a valid context, then we just go back to the home page
+                return Redirect("~/");
             }
 
             if (ModelState.IsValid)
