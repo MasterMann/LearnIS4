@@ -6,6 +6,7 @@ using IdentityServer4.EntityFramework.Mappers;
 using IdentityServer4.Models;
 using Is4Server.Services.Implementations;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -64,6 +65,40 @@ namespace Is4Server.Setups
             // Add jwt validation.
             services
                 .AddAuthentication()
+                .AddIdentityServerAuthentication(options =>
+                {
+                    options.Authority = "http://localhost:57547";
+                    options.ApiName = "api1";
+                    options.ApiSecret = "secret";
+                    options.RequireHttpsMetadata = false;
+                })
+                //                .AddJwtBearer(options =>
+                //                {
+                //                    // base-address of your identityserver
+                //                    options.Authority = "http://localhost:57547";
+
+                //                    // name of the API resource
+                //                    options.Audience = "api1";
+
+                //                    options.RequireHttpsMetadata = false;
+
+                //                    // You also need to update /wwwroot/app/scripts/app.js
+                //                    options.SecurityTokenValidators.Clear();
+                //                    options.SecurityTokenValidators.Add(new Defau());
+
+                //                    // Initialize token validation parameters.
+                //                    var tokenValidationParameters = new TokenValidationParameters();
+                //                    tokenValidationParameters.ValidAudience = jwtOptions.Audience;
+                //                    tokenValidationParameters.ValidIssuer = jwtOptions.Issuer;
+                //                    tokenValidationParameters.IssuerSigningKey = jwtOptions.SigningKey;
+
+                //#if DEBUG
+                //                    tokenValidationParameters.ValidateLifetime = false;
+                //#endif
+
+                //                    o.TokenValidationParameters = tokenValidationParameters;
+
+                //                })
                 .AddGoogle("Google", options =>
                 {
                     options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
@@ -209,6 +244,7 @@ namespace Is4Server.Setups
             authorizationCodeClient.RedirectUris.Add("http://localhost:57547/signin-google");
             authorizationCodeClient.RedirectUris.Add("http://127.0.0.1/sample-wpf-app");
             authorizationCodeClient.RedirectUris.Add("https://oidcdebugger.com/debug");
+            authorizationCodeClient.RedirectUris.Add("http://localhost:57547/api/external-login");
             authorizationCodeClient.PostLogoutRedirectUris = new List<string>();
             authorizationCodeClient.PostLogoutRedirectUris.Add("http://localhost:5002/signout-callback-oidc");
             authorizationCodeClient.RequirePkce = false;
