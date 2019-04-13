@@ -205,14 +205,14 @@ namespace Is4Server.Setups
         {
             var clients = new List<Client>();
 
-            var clientCredentialClient = new Client();
-            clientCredentialClient.ClientId = "client";
-            clientCredentialClient.AllowedGrantTypes = GrantTypes.ClientCredentials;
-            clientCredentialClient.ClientSecrets = new List<Secret>();
-            clientCredentialClient.ClientSecrets.Add(new Secret("secret".Sha256()));
-            clientCredentialClient.AllowedScopes = new List<string>();
-            clientCredentialClient.AllowedScopes.Add("api1");
-            clients.Add(clientCredentialClient);
+            //var clientCredentialClient = new Client();
+            //clientCredentialClient.ClientId = "client";
+            //clientCredentialClient.AllowedGrantTypes = GrantTypes.ClientCredentials;
+            //clientCredentialClient.ClientSecrets = new List<Secret>();
+            //clientCredentialClient.ClientSecrets.Add(new Secret("secret".Sha256()));
+            //clientCredentialClient.AllowedScopes = new List<string>();
+            //clientCredentialClient.AllowedScopes.Add("api1");
+            //clients.Add(clientCredentialClient);
 
             var resourceOwnerPasswordClient = new Client();
             resourceOwnerPasswordClient.ClientId = "ro.client";
@@ -259,23 +259,23 @@ namespace Is4Server.Setups
             clients.Add(authorizationCodeClient);
 
 
-            var codeClient = new Client();
-            codeClient.ClientId = "js";
-            codeClient.ClientName = "JavaScript Client";
-            codeClient.AllowedGrantTypes = GrantTypes.Code;
-            codeClient.RequirePkce = true;
-            codeClient.RequireClientSecret = false;
-            codeClient.RedirectUris = new List<string>();
-            codeClient.RedirectUris.Add("http://localhost:5003/callback.html");
-            codeClient.PostLogoutRedirectUris = new List<string>();
-            codeClient.PostLogoutRedirectUris.Add("http://localhost:5003/index.html");
-            codeClient.AllowedCorsOrigins = new List<string>();
-            codeClient.AllowedCorsOrigins.Add("http://localhost:5003");
-            codeClient.AllowedScopes = new List<string>();
-            codeClient.AllowedScopes.Add(IdentityServerConstants.StandardScopes.OpenId);
-            codeClient.AllowedScopes.Add(IdentityServerConstants.StandardScopes.Profile);
-            codeClient.AllowedScopes.Add("api1");
-            clients.Add(codeClient);
+            //var codeClient = new Client();
+            //codeClient.ClientId = "js";
+            //codeClient.ClientName = "JavaScript Client";
+            //codeClient.AllowedGrantTypes = GrantTypes.Code;
+            //codeClient.RequirePkce = true;
+            //codeClient.RequireClientSecret = false;
+            //codeClient.RedirectUris = new List<string>();
+            //codeClient.RedirectUris.Add("http://localhost:5003/callback.html");
+            //codeClient.PostLogoutRedirectUris = new List<string>();
+            //codeClient.PostLogoutRedirectUris.Add("http://localhost:5003/index.html");
+            //codeClient.AllowedCorsOrigins = new List<string>();
+            //codeClient.AllowedCorsOrigins.Add("http://localhost:5003");
+            //codeClient.AllowedScopes = new List<string>();
+            //codeClient.AllowedScopes.Add(IdentityServerConstants.StandardScopes.OpenId);
+            //codeClient.AllowedScopes.Add(IdentityServerConstants.StandardScopes.Profile);
+            //codeClient.AllowedScopes.Add("api1");
+            //clients.Add(codeClient);
 
             return clients;
         }
