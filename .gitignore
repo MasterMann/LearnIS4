@@ -5,3 +5,6 @@
 /Is4Server/bin
 /Is4Server/tempkey.rsa
 /Is4Server/wwwroot/lib
+/Is4ServerWithoutUi/obj
+/Is4ServerWithoutUi/bin
+/Is4ServerWithoutUi/tempkey.rsa
